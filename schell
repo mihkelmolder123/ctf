@@ -1,0 +1,58 @@
+from time import *
+import os
+import re
+
+cmdlist = "  ls [FOLDER]\t - show files in folder\n  touch [FILENAME]\t - create a new file with filename as the name\n  help\t\t - displays this help screen"
+m = input("Machine: ")
+while any(c.isalpha() for c in m) != True:
+    m = input("Machine name!: ")
+n = input("Username: ")
+while any(c.isalpha() for c in n) != True:
+    n = input("User name, NIGGAH!: ")
+
+
+if n == "root":
+    u = "#"
+    d = "/root"
+else:
+    u = "$"
+    d = "/home/" + n
+
+def inp(name, nip):
+    ext = 0
+    while ext == 0:
+        x = input(name + "@" + nip + ":" + d + u + " ")
+        if x == "exit":
+            ext += 1
+            print("Bye!")
+        else:
+            cmnd(x)
+
+def cmnd(keko):
+    keko = keko.split(" ")
+    #------------------------------------------------------------------------help
+    if keko[0] == "h" or keko[0] == "help":
+        print(cmdlist)
+    #------------------------------------------------------------------------files
+    elif keko[0] == "ls":
+        if keko[-1] != keko[0] and keko[1] != "" and keko[1] != " ":
+            if keko[1] in os.listdir("."):
+                for x in os.listdir(keko[1]):
+                    print(x)
+            else:
+                print("The folder '" + keko[1] + "' does not exist")
+        else:
+            for x in os.listdir("."):
+                    print(x)
+    elif keko[0] == "touch":
+        if keko[-1] == keko[0] or keko[1] == "" or keko[1] == " ":
+            print("Please insert a file name as well (eg.: touch filename)")
+        else:
+            print("'" + keko[1] + "' has been created")
+    #-------------------------------------------------------------------------executions
+    elif keko[0] == "krypt":
+        os.system('python krypt.py')
+    else:
+        print("'" + keko[0] + "' is not recognized as a command")
+
+inp(n, m)
